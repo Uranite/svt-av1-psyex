@@ -1096,6 +1096,13 @@ typedef struct EbSvtAv1EncConfiguration {
     uint8_t spy_rd;
 
     /**
+     * @brief Prevent macroblocks from being boosted to very low q.
+     *
+     * Default is 0. 0 = off, 1 = on.
+     */
+    Bool low_q_taper;
+
+    /**
      * @brief Enable sharp-tx, a toggle that enables much sharper transforms decisions for higher fidelity ouput,
      at the possible cost of increasing artifacting
      * 0: disabled
@@ -1116,9 +1123,9 @@ typedef struct EbSvtAv1EncConfiguration {
 
     /*Add 128 Byte Padding to Struct to avoid changing the size of the public configuration struct*/
 #if CLN_LP_LVLS
-    uint8_t padding[128 - 4 * sizeof(Bool) - 13 * sizeof(uint8_t) - sizeof(int8_t) - sizeof(uint32_t) - sizeof(double)];
+    uint8_t padding[128 - 5 * sizeof(Bool) - 13 * sizeof(uint8_t) - sizeof(int8_t) - sizeof(uint32_t) - sizeof(double)];
 #else
-    uint8_t padding[128 - 4 * sizeof(Bool) - 13 * sizeof(uint8_t) - sizeof(int8_t) - sizeof(double)];
+    uint8_t padding[128 - 5 * sizeof(Bool) - 13 * sizeof(uint8_t) - sizeof(int8_t) - sizeof(double)];
 #endif
 
 } EbSvtAv1EncConfiguration;

@@ -225,6 +225,7 @@
 
 #define PSY_RD_TOKEN "--psy-rd"
 #define SPY_RD_TOKEN "--spy-rd"
+#define LOW_Q_TAPER_TOKEN "--low-q-taper"
 #define SHARP_TX_TOKEN "--sharp-tx"
 #define HBD_MDS_TOKEN "--hbd-mds"
 
@@ -1332,11 +1333,15 @@ ConfigEntry config_entry_psy[] = {
      SPY_RD_TOKEN,
      "[PSY] Alternative psychovisual rate distortion pathways, default is 0 [0-2]; 1 = full, 2 = partial",
      set_cfg_generic_token},
-     {SINGLE_INPUT,
+    {SINGLE_INPUT,
+     LOW_Q_TAPER_TOKEN,
+     "Low q taper. If macroblocks are boosted below q15, taper the effect. Default is 0 (off).]",
+     set_cfg_generic_token},
+    {SINGLE_INPUT,
      SHARP_TX_TOKEN,
      "[PSY] Sharp transform optimization, default is 1 [0-1]",
      set_cfg_generic_token},
-     {SINGLE_INPUT,
+    {SINGLE_INPUT,
      HBD_MDS_TOKEN,
      "[PSY] High Bit-Depth Mode Decision, default is 0 [0: default preset behavior, 1 = 10-bit, 2 = hybrid 8/10-bit, 3 = 8-bit]",
      set_cfg_generic_token},
@@ -1562,6 +1567,9 @@ ConfigEntry config_entry[] = {
 
     // Spy rd
     {SINGLE_INPUT, SPY_RD_TOKEN, "SpyRd", set_cfg_generic_token},
+
+    // Low q taper
+    {SINGLE_INPUT, LOW_Q_TAPER_TOKEN, "LowQTaper", set_cfg_generic_token},
 
     // Sharp TX
     {SINGLE_INPUT, SHARP_TX_TOKEN, "SharpTX", set_cfg_generic_token},
