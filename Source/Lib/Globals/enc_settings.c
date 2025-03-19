@@ -934,8 +934,8 @@ EbErrorType svt_av1_verify_settings(SequenceControlSet *scs) {
         return_error = EB_ErrorBadParameter;
     }
 
-    if (config->spy_rd > 1) {
-        SVT_ERROR("Instance %u: spy-rd must be between 0 and 1\n", channel_number + 1);
+    if (config->spy_rd < 0 || config->spy_rd > 2) {
+        SVT_ERROR("Instance %u: spy-rd must be between 0 and 2\n", channel_number + 1);
         return_error = EB_ErrorBadParameter;
     }
 
@@ -1300,10 +1300,10 @@ void svt_av1_print_lib_params(SequenceControlSet *scs) {
             SVT_INFO("SVT [config]: PSY-RD Strength \t\t\t\t\t\t: %.2f\n",
                     config->psy_rd);
         }
-        if (config->spy_rd) {
-            SVT_INFO("SVT [config]: spy-rd \t\t\t\t\t\t\t: %s\n",
-                    config->spy_rd ? "oui" : "non");
-        }
+        // 1 is full spy-rd, 2 is partial spy-rd
+        SVT_INFO("SVT [config]: spy-rd \t\t\t\t\t\t\t: %s\n",
+        config->spy_rd == 1 ? "oui" : (config->spy_rd == 2 ? "ouais" : "non"));
+        
     }
 #ifdef DEBUG_BUFFERS
     SVT_INFO("SVT [config]: INPUT / OUTPUT \t\t\t\t\t\t\t: %d / %d\n",
@@ -2191,6 +2191,7 @@ EB_API EbErrorType svt_av1_enc_parse_parameter(EbSvtAv1EncConfiguration *config_
         {"enable-tf", &config_struct->enable_tf},
         {"hbd-mds", &config_struct->hbd_mds},
         {"sharp-tx", &config_struct->sharp_tx},
+        {"spy-rd", &config_struct->spy_rd},
     };
     const size_t uint8_opts_size = sizeof(uint8_opts) / sizeof(uint8_opts[0]);
 
@@ -2310,7 +2311,6 @@ EB_API EbErrorType svt_av1_enc_parse_parameter(EbSvtAv1EncConfiguration *config_
         {"enable-alt-curve", &config_struct->enable_alt_curve},
         {"max-32-tx-size", &config_struct->max_32_tx_size},
         {"adaptive-film-grain", &config_struct->adaptive_film_grain},
-        {"spy-rd", &config_struct->spy_rd},
     };
     const size_t bool_opts_size = sizeof(bool_opts) / sizeof(bool_opts[0]);
 
