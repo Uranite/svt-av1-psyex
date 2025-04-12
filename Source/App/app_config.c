@@ -1322,7 +1322,7 @@ ConfigEntry config_entry_psy[] = {
      set_cfg_generic_token},
     {SINGLE_INPUT,
      NOISE_NORM_STRENGTH_TOKEN,
-     "[PSY] Noise normalization strength, default is 0, default for tune=3 is 3 [0-4]",
+     "[PSY] Noise normalization strength, default is 0, default for tune=3 is 1 [0-4]",
      set_cfg_generic_token},
     {SINGLE_INPUT,
      PSY_RD_TOKEN,
