@@ -1251,52 +1251,33 @@ void svt_av1_print_lib_params(SequenceControlSet *scs) {
             }
         }
 
-        SVT_INFO("SVT [config]: Sharpness / QP scale compress strength / Frame low-luma bias \t: %d / %d / %d\n",
+        SVT_INFO("SVT [config]: Sharpness / Frame low-luma bias \t\t\t\t: %d / %d\n",
                  config->sharpness,
-                 config->qp_scale_compress_strength,
                  config->frame_luma_bias);
 
         switch (config->enable_tf) {
-            case 2:
-                if (config->noise_norm_strength < 1 && config->tune == 3) {
-                    SVT_INFO("SVT [config]: Temporal Filtering Strength / Noise Normalization Strength \t: %s / 3\n",
-                            "auto");
-                } else if (config->noise_norm_strength < 1) {
-                    SVT_INFO("SVT [config]: Temporal Filtering Strength \t\t\t\t\t: %s\n",
-                            "auto");
-                } else {
-                    SVT_INFO("SVT [config]: Temporal Filtering Strength / Noise Normalization Strength \t: %s / %d\n",
-                            "auto",
-                            config->noise_norm_strength);
-                }
-
-                SVT_INFO("SVT [config]: Keyframe TF Strength \t\t\t\t\t\t: %s\n",
-                        "auto");
-                break;
-            default:
-                if (config->enable_tf == 0 && config->noise_norm_strength < 1) {
-                    // don't print anything
-                } else if (config->enable_tf == 0) {
-                    SVT_INFO("SVT [config]: Noise Normalization Strength \t\t\t\t\t: %d\n",
-                            config->noise_norm_strength);
-                } else if (config->noise_norm_strength < 1 && config->tune == 3) {
-                    SVT_INFO("SVT [config]: Temporal Filtering Strength / Noise Normalization Strength \t: %d / 3\n",
-                            config->tf_strength);
-                } else if (config->noise_norm_strength < 1) {
-                    SVT_INFO("SVT [config]: Temporal Filtering Strength \t\t\t\t\t: %d\n",
-                            config->tf_strength);
-                } else {
-                    SVT_INFO("SVT [config]: Temporal Filtering Strength / Noise Normalization Strength \t: %d / %d\n",
-                            config->tf_strength,
-                            config->noise_norm_strength);
-                }
-
-                if (config->kf_tf_strength > 0 && config->enable_tf == 1) {
-                    SVT_INFO("SVT [config]: Keyframe TF Strength \t\t\t\t\t\t: %d\n",
-                            config->kf_tf_strength);
-                }
+        case 1:
+            if (config->tf_strength != 3)
+                SVT_INFO("SVT [config]: temporal filtering strength \t\t\t\t\t: %d\n", config->tf_strength);
+            break;
+        case 2: SVT_INFO("SVT [config]: temporal filtering strength \t\t\t\t\t: auto\n"); break;
+        default: break;
         }
-        if (config->psy_rd > 0.0 && config->tune != 1) {
+
+        SVT_INFO("SVT [config]: QP scale compress strength \t\t\t\t\t: %d\n",
+                 config->qp_scale_compress_strength);
+
+        if (config->noise_norm_strength >= 0) {
+            SVT_INFO("SVT [config]: Noise Normalization Strength \t\t\t\t\t: %d\n",
+                config->noise_norm_strength);
+        }  
+
+        if (config->kf_tf_strength > 0 && config->enable_tf == 1) {
+            SVT_INFO("SVT [config]: Keyframe TF Strength \t\t\t\t\t\t: %d\n",
+                config->kf_tf_strength);
+        }
+        
+        if (config->psy_rd > 0.0) {
             SVT_INFO("SVT [config]: PSY-RD Strength \t\t\t\t\t\t: %.2f\n",
                     config->psy_rd);
         }
