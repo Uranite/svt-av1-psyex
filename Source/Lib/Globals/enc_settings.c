@@ -1132,7 +1132,6 @@ EbErrorType svt_av1_set_default_params(EbSvtAv1EncConfiguration *config_ptr) {
     config_ptr->low_q_taper                       = 0;
     config_ptr->sharp_tx                          = 1;
     config_ptr->hbd_mds                           = 0;
-    config_ptr->sharp_tx                          = 1;
     config_ptr->complex_hvs                       = 0;
     return return_error;
 }
